@@ -6,7 +6,6 @@ module.exports = function(grunt) {
 
     //define tasks
     grunt.registerTask('server', ['connect:server', 'watch:server']);
-    grunt.registerTask('test', ['jasmine']);
 
     //env cfg
     var pkg = grunt.file.readJSON('package.json');
@@ -55,20 +54,6 @@ module.exports = function(grunt) {
             server: {
                 files: [cfg.src + '/**/*.html', cfg.src + '/*.html', cfg.src + '/**/*.js', cfg.src + '/**/*.css']
                 // tasks: [''],
-            }
-        },
-
-        //Jasmine testing
-        jasmine : {
-            src : 'src/app/services/*.js',
-            options : {
-                specs : 'spec/**/*.js',
-                template: require('grunt-template-jasmine-requirejs'),
-                templateOptions: {
-                    requireConfig: {
-                        baseUrl: ''
-                    }
-                }
             }
         }
     });
