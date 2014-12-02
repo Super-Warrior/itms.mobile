@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no;" />
+    <meta charset="utf-8">
+    <meta name="format-detection" content="telephone=no" />
+    <meta name="viewport" content="user-scalable=no, initial-scale=1, maximum-scale=1, minimum-scale=1, width=device-width, height=device-height, target-densitydpi=device-dpi" />
+    <title>iTMS</title>
+    <link rel="stylesheet" href="themes/bladecolor.min.css" />
+    <link rel="stylesheet" href="themes/jquery.mobile.icons.min.css" />
+    <link rel="stylesheet" href="css/jquery.mobile.structure-1.4.5.min.css" />
+</head>
+
+<body>
+
+<!--<script src="cordova.js"></script>-->
+<script src="vendor/less/dist/less-1.7.3.js"></script>
+<script src="vendor/jquery/dist/jquery.js"></script>
+<script src="lib/jquery.mobile-1.4.5.js"></script>
+<script src="vendor/amplify/lib/amplify.js"></script>
+<script src="vendor/knockoutjs/dist/knockout.js"></script>
+<script src="lib/knockout.mapping-latest.js"></script>
+<script src="lib/koExternalTemplateEngine_all.js"></script>
+<script src="lib/ko.extentions.js"></script>
+
+<script src="vendor/requirejs/require.js" data-main="app/main.js"></script>
+
+<div data-role="page" id="eodetail">
+
+    <!-- /panel -->
+
+    <div data-role="panel" id="panelgrid" data-position="right" data-display="overlay" data-theme="a">
+        <!-- panel content goes here -->
+        <p align="center"><a href="#"><img class="popphoto" src="images/Glyphish/icons/44-shoebox@2x.png" height="40px" /></a><br>
+            <font color="#999999" size="2">我的任务<br>
+            </font></p>
+        <ul data-role="listview" data-inset="true" data-theme="b" class="ui-nodisc-icon ui-alt-icon">
+            <li><a href="ongoingTasks.html" rel="external"><img src="images/Glyphish/icons/113-navigation.png" alt="ongoing" class="ui-li-icon ui-corner-none"><font size="2">执行中任务</font></a></li>
+            <li><a href="assignedTasks.html" rel="external"><img src="images/Glyphish/icons/124-bullhorn@2x.png" alt="plan" class="ui-li-icon"><font size="2">已分派任务</font></a></li>
+        </ul>
+        <div class="ui-nodisc-icon ui-alt-icon"><!-- Classes added to the wrapper -->
+            <p align="center"><a href="#"><img class="popphoto" src="images/itmslogo.png" height="12px"></a></p>
+            <p align="center"> &nbsp; <a href="#" data-rel="close" class="ui-btn ui-btn-c ui-shadow ui-corner-all ui-icon-back ui-btn-icon-notext ui-btn-inline">back</a></p>
+        </div>
+    </div>
+    <!-- /panel -->
+
+    <div data-role="popup" id="popupaction" data-overlay-theme="a" data-theme="b" style="width: 240px">
+        <p align="center"><a href="#"><img class="popphoto" src="images/Glyphish/icons/12-eye@2x.png" height="18px"></a><br>
+            <font color="#999999" size="1">事件管理</p>
+        <form style="padding: 10px 10px;">
+            <select name="select-native-9" id="select-native-9" data-iconpos="right">
+                <option value="#">分派确认</option>
+                <option value="#">分派拒绝</option>
+            </select>
+            <p align="center"> <a href="#" class="ui-btn ui-shadow  ui-btn-inline ui-corner-all ui-icon-check ui-btn-icon-left">提交</a></p>
+        </form>
+    </div>
+    <div data-role="footer" data-position="fixed" data-theme="b">
+        <div data-role="navbar" data-iconpos="bottom">
+            <ul>
+                <li><a href="index.html#indexpage" rel="external" data-icon="home"> </a></li>
+                <li><a href="#panelgrid" data-icon="grid"> </a></li>
+            </ul>
+        </div>
+    </div>
+    <div data-role="popup" id="popupeodetail" data-overlay-theme="b" data-theme="b"><a href="#" data-rel="back" data-role="button" data-theme="b" data-icon="back" data-iconpos="notext" class="ui-btn-right">Close</a>
+        <ul data-role="listview"  data-inset="true" data-theme="b">
+            <li><img src="images/Glyphish/icons/195-barcode@2x.png" alt="France" class="ui-li-icon ui-corner-none"><font size="3"> 121211/111/23<br>
+                交货单：21453653333<br>
+                提单：56745734525252</font></li>
+            <li><img src="images/Glyphish/icons/40-inbox@2x.png" alt="France" class="ui-li-icon ui-corner-none"><font size="3"> M:1<br>
+                L:2<br>
+                S:6<br>
+            </font></li>
+            <li><img src="images/Glyphish/icons/103-map@2x.png" alt="France" class="ui-li-icon ui-corner-none"><font size="3"> 从：中国，上海，徐汇，龙华<br>
+                至：中国，江苏，南京，下关</font></li>
+        </ul>
+    </div>
+    <div data-role="content">
+        <p align="center"><a href="#"><img class="popphoto" src="images/Glyphish/icons/124-bullhorn@2x.png" height="25px"></a><br>
+            <font color="#666666" size="2">已分派任务</font></p>
+        <br>
+        <div data-role="collapsibleset" data-theme="b" data-content-theme="b" data-mini="true" data-iconpos="right">
+            <div data-role="collapsible" data-collapsed-icon="search" data-expanded-icon="carat-u">
+                <h2>运单列表</h2>
+                <ul data-role="listview" data-split-icon="action"  data-split-theme="b" data-filter="true" data-filter-theme="b" data-divider-theme="a" data-filter-placeholder="数据筛选" data-filter-theme="a" data-count-theme="b">
+                    <li data-role="list-divider">路单: 121<span class="ui-li-count">2</span></li>
+                    <li><a href="#popupeodetail" data-rel="popup" data-position-to="window" data-transition="pop"><font size="3"><strong>20111211/1211/11</strong></font>
+                        <p><strong><font color="#999999">R: </font></strong>2014-12-31</p>
+                        <p><strong><font color="#999999">S: </font></strong>11:11 AM</p>
+                        <p><strong><font color="#999999">E: </font></strong>12:40 PM</p>
+                        <p><strong><font color="#999999">F: </font></strong>上海通用</p>
+                        <p><strong><font color="#999999">F: </font></strong>上海浦东金桥</p>
+                        <p><strong><font color="#999999">T: </font></strong>海通码头</p>
+                        <p><strong><font color="#999999">T: </font></strong>上海浦东外高桥码头</p>
+                        <p><strong><font color="#999999">P: </font></strong>M3</p>
+                        <p class="ui-li-aside"><strong></strong></p>
+                        <span class="ui-li-count">正常</span> </a> <a href="#popupaction" data-rel="popup" data-position-to="window" data-transition="pop">GEO</a></li>
+                    <li><a href="#popupeodetail" data-rel="popup" data-position-to="window" data-transition="pop"><font size="3"><strong>20111211/1211/11</strong></font>
+                        <p><strong><font color="#999999">R: </font></strong>2014-12-31</p>
+                        <p><strong><font color="#999999">S: </font></strong>11:11 AM</p>
+                        <p><strong><font color="#999999">E: </font></strong>12:40 PM</p>
+                        <p><strong><font color="#999999">F: </font></strong>上海通用</p>
+                        <p><strong><font color="#999999">F: </font></strong>上海浦东金桥</p>
+                        <p><strong><font color="#999999">T: </font></strong>海通码头</p>
+                        <p><strong><font color="#999999">T: </font></strong>上海浦东外高桥码头</p>
+                        <p><strong><font color="#999999">P: </font></strong>M3</p>
+                        <p class="ui-li-aside"><strong></strong></p>
+                        <span class="ui-li-count">延迟</span> </a> <a href="#popupaction" data-rel="popup" data-position-to="window" data-transition="pop">GEO</a></li>
+                    <li data-role="list-divider">路单: 6611<span class="ui-li-count">1</span></li>
+                    <li><a href="#popupeodetail" data-rel="popup" data-position-to="window" data-transition="pop"><font size="3"><strong>20111211/1211/11</strong></font>
+                        <p><strong><font color="#999999">R: </font></strong>2014-12-31</p>
+                        <p><strong><font color="#999999">S: </font></strong>11:11 AM</p>
+                        <p><strong><font color="#999999">E: </font></strong>12:40 PM</p>
+                        <p><strong><font color="#999999">F: </font></strong>上海通用</p>
+                        <p><strong><font color="#999999">F: </font></strong>上海浦东金桥</p>
+                        <p><strong><font color="#999999">T: </font></strong>海通码头</p>
+                        <p><strong><font color="#999999">T: </font></strong>上海浦东外高桥码头</p>
+                        <p><strong><font color="#999999">P: </font></strong>M3</p>
+                        <p class="ui-li-aside"><strong></strong></p>
+                        <span class="ui-li-count">延迟</span> </a> <a href="#popupaction" data-rel="popup" data-position-to="window" data-transition="pop">GEO</a></li>
+                </ul>
+            </div>
+        </div>
+        <p align="center"><a href="#"><img class="popphoto" src="images/itmslogo.png" height="12px"></a></p>
+    </div>
+</div>
+<!-- /page one -->
+
+
+
+</body>
+
+</html>
