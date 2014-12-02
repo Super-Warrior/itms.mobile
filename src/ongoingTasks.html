@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html>
 
 <head>
@@ -20,14 +20,13 @@
 <script src="vendor/jquery/dist/jquery.js"></script>
 <script src="lib/jquery.mobile-1.4.5.js"></script>
 <script src="vendor/amplify/lib/amplify.js"></script>
-<script src="vendor/knockoutjs/dist/knockout.js"></script>
+<script src="vendor/knockoutjs/build/output/knockout-latest.js"></script>
 <script src="lib/knockout.mapping-latest.js"></script>
 <script src="lib/koExternalTemplateEngine_all.js"></script>
 <script src="lib/ko.extentions.js"></script>
 
-<script src="vendor/requirejs/require.js" data-main="app/main.js"></script>
+<script src="vendor/requirejs/require.js" data-main="app/ongoingTasks.js"></script>
 <div data-role="page" id="eodetail">
-
     <!-- /panel -->
 
     <div data-role="panel" id="panelgrid" data-position="right" data-display="overlay" data-theme="a">
@@ -48,7 +47,7 @@
 
     <div data-role="popup" id="popupaction" data-overlay-theme="a" data-theme="b" style="width: 240px">
         <p align="center"><a href="#"><img class="popphoto" src="images/Glyphish/icons/12-eye@2x.png" height="18px"></a><br>
-            <font color="#999999" size="1">事件管理</p>
+            <font color="#999999" size="1">事件管理</font></p>
         <form style="padding: 10px 10px;">
             <select name="select-native-9" id="select-native-9" data-iconpos="right">
                 <option value="1">异常</option>

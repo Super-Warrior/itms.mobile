@@ -1,33 +1,37 @@
 define(['services/config'], function (config) {
 
-    var loginUrl = config.anotherUrl + "Location/eventCreateLocation ",
+   var loginUrl = config.baseUrl + "EO/EventCreateLocation",
         init = function () {
-            //driver login
-            amplify.request.define('eventCreateLocation', 'ajax', {
+         
+            amplify.request.define('CreateLocation', 'ajax', {
                 url: loginUrl,
                 dataType: 'json',
-                type: 'POST'
+                type: 'POST',
+                beforeSend: function (data) {
+                   data.setRequestHeader("Authorization", auth);
+                   return true;
+                }
             });
         },
 
         defferRequest = function (resourceId, option) {
-            return $.Deferred(function (dfd) {
-                amplify.request({
-                    resourceId: resourceId,
-                    data: option,
-                    success: dfd.resolve,
-                    error: dfd.reject
-                });
-            }).promise()
+           return $.Deferred(function(dfd) {
+              amplify.request({
+                 resourceId: resourceId,
+                 data: option,
+                 success: dfd.resolve,
+                 error: dfd.reject
+              });
+           }).promise();
         },
 
-        eventCreateLocation = function (option) {
-            return defferRequest('eventCreateLocation', option);
+        createLocation = function (option) {
+           return defferRequest("CreateLocation", option);
         };
 
     init();
 
-    return{
-        eventCreateLocation: eventCreateLocation
-    }
+   return {
+      "createLocation": createLocation
+   };
 });

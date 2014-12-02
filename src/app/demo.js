@@ -2,7 +2,7 @@ require.config({
     paths: {
         'jquery': '../vendor/jquery/dist/jquery',
         'underscore': '../vendor/underscore/underscore',
-        'knockout': '../vendor/knockoutjs/dist/knockout'
+        'knockout': '../vendor/knockoutjs/build/output/knockout-latest'
     },
     shim: {
         'jquery': {

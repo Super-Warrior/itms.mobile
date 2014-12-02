@@ -5,6 +5,7 @@
     "amplify": "~1.1.2",
     "jquery": "~2.1.1",
     "jquery-tiny-pubsub": "~0.7.0",
+	"knockoutjs":"~2.2.0",
     "moment": "~2.7.0",
     "requirejs": "~2.1.14",
     "requirejs-text": "~2.0.12",
