@@ -82,9 +82,92 @@ define(['services/config', 'services/base64Services'], function (config, base64)
            return defferRequest('EOQuickSearchDriver', param);
         };
 
+   var organizeResult = function (arr) {
+      arr = arr.map(function (item) {
+         if (item.erItem.routeClassID == null) item.erItem.routeClassID = "";
+         if (item.erHead.reqDelDate == null) item.erHead.reqDelDate = "";
+         if (item.erItem.routeClassTimeS == null) item.erItem.routeClassTimeS = "";
+         if (item.erItem.routeClassTimeE == null) item.erItem.routeClassTimeE = "";
+         if (item.depCustomerDesc == null) item.depCustomerDesc = "";
+
+
+         if (item.erHead.depCountry == null) item.erHead.depCountry = "";
+         if (item.erHead.depState == null) item.erHead.depState = "";
+         if (item.erHead.depCity == null) item.erHead.depCity = "";
+         if (item.erHead.depDisc == null) item.erHead.depDisc = "";
+
+         if (item.erHead.recCountry == null) item.erHead.recCountry = "";
+         if (item.erHead.recState == null) item.erHead.recState = "";
+         if (item.erHead.recCity == null) item.erHead.recCity = "";
+         if (item.erHead.recDisc == null) item.erHead.recDisc = "";
+         if (item.recCustomerDesc == null) item.recCustomerDesc = "";
+
+         if (item.erItem.resAmtCS1 == null) item.erItem.resAmtCS1 = "";
+         if (item.erItem.resAmt1 == null) item.erItem.resAmt1 = "";
+         if (item.erItem.resAmtCS2 == null) item.erItem.resAmtCS2 = "";
+         if (item.erItem.resAmt2 == null) item.erItem.resAmt2 = "";
+         if (item.erItem.resAmtCS3 == null) item.erItem.resAmtCS3 = "";
+         if (item.erItem.resAmt3 == null) item.erItem.resAmt3 = "";
+
+         if (item.eritnstatusDesc == null) item.eritnstatusDesc = "";
+         if (item.dn.customerOrder1 == null) item.dn.customerOrder1 = "";
+         if (item.dn.customerOrder2 == null) item.dn.customerOrder2 = "";
+
+         return {
+            "routeClassID": item.erItem.routeClassID,
+            "eo": item.dn.eo,
+            "erID": item.erHead.erID,
+            "erITN": item.erItem.pk.erITN,
+            "reqDelDate": item.erHead.reqDelDate,
+            "routeClassTimeS": item.erItem.routeClassTimeS,
+            "routeClassTimeE": item.erItem.routeClassTimeE,
+            "depCustomerDesc": item.depCustomerDesc,
+            "depLocation": item.erHead.depCountry + item.erHead.depState + item.erHead.depCity + item.erHead.depDisc,
+            "recLocation": item.erHead.recCountry + item.erHead.recState + item.erHead.recCity + item.erHead.recDisc,
+            "recCustomerDesc": item.recCustomerDesc,
+            "resAmtDesc1": item.erItem.resAmtCS1 + ":" + item.erItem.resAmt1,
+            "resAmtDesc2": item.erItem.resAmtCS2 + ":" + item.erItem.resAmt2,
+            "resAmtDesc3": item.erItem.resAmtCS3 + ":" + item.erItem.resAmt3,
+            "eritnstatusDesc": item.eritnstatusDesc,
+            "customerOrder1": item.dn.customerOrder1,
+            "customerOrder2": item.dn.customerOrder2
+         };
+
+      });
+
+      var result = [];
+
+      arr.forEach(function (item) {
+         var find = result.filter(function (temp) {
+            return temp.routeClassID == item.routeClassID;
+         });
+         if (find.length == 0) {
+            result.push(
+               {
+                  "routeClassID": item.routeClassID,
+                  "items": [item]
+               }
+            );
+         } else {
+            find[0].items.push(item);
+         }
+
+
+      });
+
+
+      result = result.sort(function (a, b) {
+         return a.routeClassID.localeCompare(b.routeClassID);
+      });
+      return result;
+
+   };
+
+
    init();
 
    return {
-      eoQuickSearch: eoQuickSearch
+      eoQuickSearch: eoQuickSearch,
+      organizeResult: organizeResult
    };
 });
