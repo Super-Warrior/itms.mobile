@@ -86,6 +86,9 @@ define(['services/config', 'services/base64Services'], function (config, base64)
       arr = arr.map(function (item) {
          if (item.erItem.routeClassID == null) item.erItem.routeClassID = "";
          if (item.erHead.reqDelDate == null) item.erHead.reqDelDate = "";
+         var index = item.erHead.reqDelDate.indexOf(" ");
+         if (index >= 0)
+            item.erHead.reqDelDate = item.erHead.reqDelDate.substring(0, index);
          if (item.erItem.routeClassTimeS == null) item.erItem.routeClassTimeS = "";
          if (item.erItem.routeClassTimeE == null) item.erItem.routeClassTimeE = "";
          if (item.depCustomerDesc == null) item.depCustomerDesc = "";
@@ -110,8 +113,8 @@ define(['services/config', 'services/base64Services'], function (config, base64)
          if (item.erItem.resAmt3 == null) item.erItem.resAmt3 = "";
 
          if (item.eritnstatusDesc == null) item.eritnstatusDesc = "";
-         if (item.dn.customerOrder1 == null) item.dn.customerOrder1 = "";
-         if (item.dn.customerOrder2 == null) item.dn.customerOrder2 = "";
+         if (item.erHead.customerOrder1 == null) item.erHead.customerOrder1 = "";
+         if (item.erHead.customerOrder2 == null) item.erHead.customerOrder2 = "";
 
          return {
             "routeClassID": item.erItem.routeClassID,
@@ -125,12 +128,12 @@ define(['services/config', 'services/base64Services'], function (config, base64)
             "depLocation": item.erHead.depCountry + item.erHead.depState + item.erHead.depCity + item.erHead.depDisc,
             "recLocation": item.erHead.recCountry + item.erHead.recState + item.erHead.recCity + item.erHead.recDisc,
             "recCustomerDesc": item.recCustomerDesc,
-            "resAmtDesc1": item.erItem.resAmtCS1 + ":" + item.erItem.resAmt1,
-            "resAmtDesc2": item.erItem.resAmtCS2 + ":" + item.erItem.resAmt2,
-            "resAmtDesc3": item.erItem.resAmtCS3 + ":" + item.erItem.resAmt3,
+            "resAmtDesc1": (item.erItem.resAmtCS1 && item.erItem.resAmt1) ? (item.erItem.resAmtCS1 + ":" + item.erItem.resAmt1) : "",
+            "resAmtDesc2": (item.erItem.resAmtCS2 && item.erItem.resAmt2) ? (item.erItem.resAmtCS2 + ":" + item.erItem.resAmt2) : "",
+            "resAmtDesc3": (item.erItem.resAmtCS3 && item.erItem.resAmt3) ? (item.erItem.resAmtCS3 + ":" + item.erItem.resAmt3) : "",
             "eritnstatusDesc": item.eritnstatusDesc,
-            "customerOrder1": item.dn.customerOrder1,
-            "customerOrder2": item.dn.customerOrder2
+            "customerOrder1": item.erHead.customerOrder1,
+            "customerOrder2": item.erHead.customerOrder2
          };
 
       });
@@ -153,13 +156,50 @@ define(['services/config', 'services/base64Services'], function (config, base64)
          }
 
 
+
       });
 
 
       result = result.sort(function (a, b) {
          return a.routeClassID.localeCompare(b.routeClassID);
       });
-      return result;
+
+      var count = 0;
+      var items = [];
+      result.forEach(function (sum) {
+         items.push({
+            "routeClassID": sum.routeClassID,
+            "length": sum.items.length,
+            "isSum": true,
+            "eo": "",
+            "erID": "",
+            "erITN": "",
+            "reqDelDate": "",
+            "routeClassTimeS": "",
+            "routeClassTimeE": "",
+            "depCustomerDesc": "",
+            "depLocation": "",
+            "recLocation": "",
+            "recCustomerDesc": "",
+            "resAmtDesc1": "",
+            "resAmtDesc2": "",
+            "resAmtDesc3": "",
+            "eritnstatusDesc": "",
+            "customerOrder1": "",
+            "customerOrder2": ""
+         });
+
+         sum.items.forEach(
+            function (temp) {
+               $.extend(temp, { "isSum": false, "length": 1 });
+            }
+         );
+
+         items = items.concat(sum.items);
+         count += sum.items.length;
+      });
+
+      return items;
 
    };
 
@@ -168,6 +208,45 @@ define(['services/config', 'services/base64Services'], function (config, base64)
 
    return {
       eoQuickSearch: eoQuickSearch,
-      organizeResult: organizeResult
+      organizeResult: organizeResult,
+      defaultItem: function () {
+         return {
+            "routeClassID": "",
+            "length": "",
+            "isSum": true,
+            "eo": "",
+            "erID": "",
+            "erITN": "",
+            "reqDelDate": "",
+            "routeClassTimeS": "",
+            "routeClassTimeE": "",
+            "depCustomerDesc": "",
+            "depLocation": "",
+            "recLocation": "",
+            "recCustomerDesc": "",
+            "resAmtDesc1": "",
+            "resAmtDesc2": "",
+            "resAmtDesc3": "",
+            "eritnstatusDesc": "",
+            "customerOrder1": "",
+            "customerOrder2": ""
+         };
+      },
+      mapObservable: function (item, obj) {
+         if (!obj)
+            obj = this.defaultItem();
+         var data = ko.toJS(obj);
+
+         Object.keys(data).forEach(function (key) {
+
+            if (ko.isObservable(item[key])) {
+               item[key](data[key]);
+            }
+            else
+               item[key] = ko.observable(data[key]);
+         });
+
+         return item;
+      }
    };
 });

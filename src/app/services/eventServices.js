@@ -1,8 +1,9 @@
-define(['services/config'], function (config) {
+define(['services/config', 'services/base64Services'], function (config, base64) {
 
    var loginUrl = config.baseUrl + "EO/EventCreateLocation",
         init = function () {
-         
+           var auth = 'Basic ' + base64.encode(config.userName + ':' + config.password);
+
             amplify.request.define('CreateLocation', 'ajax', {
                 url: loginUrl,
                 dataType: 'json',
@@ -28,7 +29,7 @@ define(['services/config'], function (config) {
         createLocation = function (option) {
            return defferRequest("CreateLocation", option);
         };
-
+ 
     init();
 
    return {

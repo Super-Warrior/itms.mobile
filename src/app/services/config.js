@@ -4,17 +4,7 @@ define(function () {
    return {
       baseUrl: url,
       userName: "test@blade.com",
-      password: "test",
-      convertToObservable: function (list) {
-         var newList = [];
-         $.each(list, function (i, obj) {
-            var newObj = {};
-            Object.keys(obj).forEach(function (key) {
-               newObj[key] = ko.observable(obj[key]);
-            });
-            newList.push(newObj);
-         });
-         return newList;
-      }
+      password: "test"
+    
    };
 });
