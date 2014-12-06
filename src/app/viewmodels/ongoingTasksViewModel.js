@@ -6,21 +6,22 @@
 
    taskServices.mapObservable(selectedItem);
 
-   taskServices.eoQuickSearch("O").then(function (result) {
-      if (!result.errorMessage || result.errorMessage == "OK") {
-         var arr = taskServices.organizeResult(result);
-         arr.forEach(
-            function (item) {
-               eoList.push(item);
+    var refresh=function() {
+        eoList.removeAll();
+        taskServices.eoQuickSearch("O").then(function (result) {
+            if (!result.errorMessage || result.errorMessage == "OK") {
+                var arr = taskServices.organizeResult(result);
+                arr.forEach(
+                    function (item) {
+                        eoList.push(item);
+                    }
+                );
             }
-         );
-      }
 
 
-
-
-
-   });
+        });
+    };
+    refresh();
 
    var selectItem = function (data) {
 
@@ -44,7 +45,16 @@
          return;
 
       var tempItem = ko.toJS(item);
-
+  
+	  var locationInfo=	localStorage.getItem("location");
+	  var lng=0;
+	  var lat=0;
+	  if(locationInfo)
+	  {
+		locationInfo=JSON.parse(locationInfo);
+		lng=locationInfo.lng;
+		lat=locationInfo.lat;
+	  }
       var option = {
          createUser: 10000,
          eventType: "NORM",
@@ -57,16 +67,19 @@
          eventListener3: "",
          eventListener4: "",
          eventDateTime: "",
-
          memo: "",
-         Lat: 31.2,
-         Lng: 120.11
+         Lat: lat,
+         Lng: lng
 
       };
       eventServices.createLocation(option).then(
          function (result) {
             if (!result.errorMessage || result.errorMessage == "OK")
-               $("#popupaction").popup("close");
+            {
+                $("#popupaction").popup("close");
+                refresh();
+            }
+
             else
                alert(result.errorMessage);
          }

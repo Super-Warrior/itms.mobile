@@ -6,17 +6,24 @@ define(['services/taskServices', 'services/eventServices', 'services/staticData'
 
    taskServices.mapObservable(selectedItem);
 
-   taskServices.eoQuickSearch("U").then(function (result) {
-      if (!result.errorMessage || result.errorMessage == "OK") {
-         var arr = taskServices.organizeResult(result);
-         arr.forEach(
-            function (item) {
-               eoList.push(item);
-            }
-         );
-      }
-   });
 
+    var refresh=function(){
+
+
+        eoList.removeAll();
+        taskServices.eoQuickSearch("U").then(function (result) {
+            if (!result.errorMessage || result.errorMessage == "OK") {
+                var arr = taskServices.organizeResult(result);
+                arr.forEach(
+                    function (item) {
+                        eoList.push(item);
+                    }
+                );
+            }
+        });
+
+    };
+    refresh();
    var selectItem = function (data) {
 
       taskServices.mapObservable(selectedItem, data);
@@ -39,7 +46,17 @@ define(['services/taskServices', 'services/eventServices', 'services/staticData'
          return;
 
       var tempItem = ko.toJS(item);
-
+	  
+	  var locationInfo=	localStorage.getItem("location");
+	  var lng=0;
+	  var lat=0;
+	  if(locationInfo)
+	  {
+		locationInfo=JSON.parse(locationInfo);
+		lng=locationInfo.lng;
+		lat=locationInfo.lat;
+	  }
+	
       var option = {
          createUser: 10000,
          eventType: "NORM",
@@ -52,16 +69,18 @@ define(['services/taskServices', 'services/eventServices', 'services/staticData'
          eventListener3: "",
          eventListener4: "",
          eventDateTime: "",
-
          memo: "",
-         Lat: 31.2,
-         Lng: 120.11
+         Lat: lng,
+         Lng: lat
 
       };
       eventServices.createLocation(option).then(
          function (result) {
             if (!result.errorMessage || result.errorMessage == "OK")
-               $("#popupaction").popup("close");
+            {
+                $("#popupaction").popup("close");
+                refresh();
+            }
             else
                alert(result.errorMessage);
          }
