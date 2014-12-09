@@ -70,9 +70,8 @@ define(['services/taskServices', 'services/eventServices', 'services/staticData'
          eventListener4: "",
          eventDateTime: "",
          memo: "",
-         Lat: lng,
-         Lng: lat
-
+         Lat: lat,
+         Lng: lng
       };
       eventServices.createLocation(option).then(
          function (result) {

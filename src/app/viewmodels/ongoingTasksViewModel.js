@@ -70,7 +70,6 @@
          memo: "",
          Lat: lat,
          Lng: lng
-
       };
       eventServices.createLocation(option).then(
          function (result) {
