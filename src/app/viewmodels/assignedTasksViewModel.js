@@ -7,23 +7,21 @@ define(['services/taskServices', 'services/eventServices', 'services/staticData'
    taskServices.mapObservable(selectedItem);
 
 
-    var refresh=function(){
+   var refresh = function () {
+      eoList.removeAll();
+      taskServices.eoQuickSearch("U").then(function (result) {
+         if (!result.errorMessage || result.errorMessage == "OK") {
+            var arr = taskServices.organizeResult(result);
+            arr.forEach(
+                function (item) {
+                   eoList.push(item);
+                }
+            );
+         }
+      });
 
-
-        eoList.removeAll();
-        taskServices.eoQuickSearch("U").then(function (result) {
-            if (!result.errorMessage || result.errorMessage == "OK") {
-                var arr = taskServices.organizeResult(result);
-                arr.forEach(
-                    function (item) {
-                        eoList.push(item);
-                    }
-                );
-            }
-        });
-
-    };
-    refresh();
+   };
+   refresh();
    var selectItem = function (data) {
 
       taskServices.mapObservable(selectedItem, data);
@@ -46,17 +44,16 @@ define(['services/taskServices', 'services/eventServices', 'services/staticData'
          return;
 
       var tempItem = ko.toJS(item);
-	  
-	  var locationInfo=	localStorage.getItem("location");
-	  var lng=0;
-	  var lat=0;
-	  if(locationInfo)
-	  {
-		locationInfo=JSON.parse(locationInfo);
-		lng=locationInfo.lng;
-		lat=locationInfo.lat;
-	  }
-	
+
+      var locationInfo = localStorage.getItem("location");
+      var lng = 0;
+      var lat = 0;
+      if (locationInfo) {
+         locationInfo = JSON.parse(locationInfo);
+         lng = locationInfo.lng;
+         lat = locationInfo.lat;
+      }
+
       var option = {
          createUser: 10000,
          eventType: "NORM",
@@ -75,10 +72,9 @@ define(['services/taskServices', 'services/eventServices', 'services/staticData'
       };
       eventServices.createLocation(option).then(
          function (result) {
-            if (!result.errorMessage || result.errorMessage == "OK")
-            {
-                $("#popupaction").popup("close");
-                refresh();
+            if (!result.errorMessage || result.errorMessage == "OK") {
+               $("#popupaction").popup("close");
+               refresh();
             }
             else
                alert(result.errorMessage);
