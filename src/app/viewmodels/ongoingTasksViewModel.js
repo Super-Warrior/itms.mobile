@@ -54,6 +54,7 @@
          lng = locationInfo.lng;
          lat = locationInfo.lat;
       }
+      var now = eventServices.formatDateTime(new Date());
       var option = {
          createUser: 10000,
          eventType: "NORM",
@@ -65,7 +66,7 @@
          eventListener2: "",
          eventListener3: "",
          eventListener4: "",
-         eventDateTime: "",
+         eventDateTime: now,
          memo: "",
          Lat: lat,
          Lng: lng
